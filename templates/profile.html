@@ -1,0 +1,51 @@
+{% extends "layout.html" %}
+
+{% block title %}
+  Profile
+{% endblock %}
+
+{% block main %}
+  <h1 class="p-4">Your profile</h1>
+  <hr>
+
+  <div class="px-5 mx-5">
+    <form action="/profile" method="post">
+
+      <div class="form-group row px-5">
+        <label class="col-3 col-form-label">Username</label>
+        <input type="text" readonly class="form-control-plaintext col-3" value="{{ username }}">
+        <label class="col-3 col-form-label">Email</label>
+        <input type="text" readonly class="form-control-plaintext col-3" value="{{ email }}">
+      </div>
+
+      <div class="form-group p-1">
+        <small class="form-text text-muted">I am a...</small>
+        <select class="form-control" name="role">
+          <option disabled>Select role...</option>
+          {% for x in ['Programmer', 'Artist', 'Composer', 'Game Designer', 'Game Tester'] %}
+            {% if role == x %}
+              <option selected>{{x}}</option>
+            {% else %}
+              <option>{{ x }}</option>
+            {% endif %}  
+          {%  endfor %}
+        </select>
+      </div>
+      
+      <div class="form-group">
+        <small class="form-text text-muted">Description</small>
+        <textarea 
+          class="form-control" 
+          name="description" 
+          rows="5" cols="50" 
+          placeholder="e.g. I know how to program in C# and use Unity!"
+        >{{description}}</textarea>
+        
+      </div>
+
+      <button class="btn btn-dark" type="submit">Save</button>
+    </form>
+  </div>
+
+
+{% endblock %}
