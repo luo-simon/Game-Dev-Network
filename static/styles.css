@@ -46,6 +46,23 @@ main img
     max-width: 100%;
 }
 
+a
+{
+    text-decoration: none;
+    color: #eeeeee;
+}
+
+a:hover
+{
+    text-decoration: none;
+    color: #bbbbbb;
+}
+
+a:visited
+{
+    text-decoration: none;
+}
+
 .bg-0
 {
     background-color: #303841;
@@ -54,6 +71,11 @@ main img
 .bg-1
 {
     background-color: #3a4750;
+}
+
+.bg-2
+{
+    background-color: #373f49;
 }
 
 .text-red
@@ -108,4 +130,29 @@ label
     border-radius: 5px;
     width: 200px;
     margin-top: 50px;
+}
+
+.card
+{
+    text-align: left;
+}
+
+.badge
+{
+    background-color: #3a4750;
+}
+
+.float-r
+{
+    float: right;
+}
+
+.float-l
+{
+    float: left;
+}
+
+.fill
+{
+    width: 100% !important;
 }

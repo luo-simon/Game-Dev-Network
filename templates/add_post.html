@@ -1,0 +1,41 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Add post
+{% endblock %}
+
+{% block main %}
+
+  
+    <h2 class="text-left py-2">Create new post</h2>
+    
+    <form action="/add_post" method="post">
+
+        <div class="form-group row">
+            <label class="col-2 col-form-label">Title</label>
+            <div class="col-8">
+              <input type="text" class="fill form-control" name="title" placeholder="Title">
+            </div>
+
+            <select class="form-control col-2" name="role">
+                <option disabled selected>Looking for...</option>
+                <option>Programmer</option>
+                <option>Artist</option>
+                <option>Composer</option>
+                <option>Game Designer</option>
+                <option>Game Tester</option>
+            </select>
+        </div>
+        
+        <div class="form-group row">
+            <label class="col-2 col-form-label">Description</label>
+            <textarea class="form-control col-10 fill" name="text" rows="5" 
+            placeholder="e.g. I'm looking for a 2D pixel artist to work with for the upcoming game jam!"></textarea>    
+        </div>
+
+        <button class="btn btn-dark" type="Submit">Save</button>
+    </form>
+
+
+  
+{% endblock %}

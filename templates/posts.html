@@ -1,0 +1,36 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    {{ title }}
+{% endblock %}
+
+{% block main %}
+
+  <a class="btn btn-info float-r" href="/add_post">
+    <i class="fas fa-plus"></i> Add new post 
+  </a>
+  
+  <h2 class="text-left py-2">{{ title }}</h2>
+  
+  {% for post in posts %}
+    <div class="card bg-dark text-light my-2">
+      <a href="#">
+        <div class="card-body">
+          <div class="class-title">
+            <h5>{{ post["title"] }}</h5>  
+            <span class="badge float-r">Looking for: {{ post["role"] }}</span>
+          </div>
+          <p class="card-text">{{ post["text"] }}</p>
+          <footer class="blockquote-footer">{{ post["username"]}} at <cite>{{ post["timestamp"] }}</cite></footer>
+        </div>
+      </a>
+    </div>
+  {% endfor %}
+
+  {% if not posts %}
+  <br>
+  <p class="text-muted">It looks like you haven't created any posts yet :(</p>
+  {% endif %}
+
+  
+{% endblock %}

@@ -1,14 +1,12 @@
-import os
-
 from cs50 import SQL
-from flask import Flask, redirect, render_template, request, session
+from flask import Flask, redirect, render_template, request, session, flash
 from flask_session import Session
 from tempfile import mkdtemp
 
 from werkzeug.exceptions import default_exceptions, HTTPException, InternalServerError
 from werkzeug.security import check_password_hash, generate_password_hash
 
-from helpers import apology, login_required, lookup
+from helpers import apology, login_required
 
 # Configure application
 app = Flask(__name__)
@@ -59,25 +57,57 @@ def profile():
                    id=session["user_id"])
         print(new_role, new_desc)
 
+        flash("Profile updated!")
         return redirect("/")
 
 
 @app.route("/contacts")
 @login_required
 def contacts():
-    return apology("Oops! Not yet developed...", 403)
+    return apology("Oops! This function has not yet been implemented...", 403)
 
+
+@app.route("/add_post", methods=["GET", "POST"])
+@login_required
+def add_post():
+
+    if request.method == "GET":
+        return render_template("add_post.html")
+    
+    else:
+        title = request.form.get("title")
+        role = request.form.get("role")
+        text = request.form.get("text")
+
+        db.execute("INSERT INTO posts (user_id, title, role, text) VALUES (:user_id, :title, :role, :text)",
+                   user_id=session["user_id"],
+                   title=title,
+                   role=role,
+                   text=text)
+
+        flash("Post created")
+        return redirect("/your_posts")
 
 @app.route("/your_posts")
 @login_required
 def your_posts():
-    return apology("Oops! Not yet developed...", 403)
+    posts = db.execute(
+        "SELECT title, posts.role, text, username, timestamp FROM posts " +
+        "JOIN users ON posts.user_id=users.id WHERE user_id=:user_id ORDER BY timestamp DESC",
+        user_id=session["user_id"]
+    )
+
+    return render_template("posts.html", title="Your posts", posts=posts)
 
 
 @app.route("/all_posts")
 @login_required
 def all_posts():
-    return apology("Oops! Not yet developed...", 403)
+    posts = db.execute(
+        "SELECT title, posts.role, text, username, timestamp FROM posts " +
+        "JOIN users ON posts.user_id=users.id ORDER BY timestamp DESC")
+        
+    return render_template("posts.html", title="All posts", posts=posts)
 
 
 @app.route("/developers")
@@ -116,6 +146,7 @@ def login():
         # Remember which user has logged in
         session["user_id"] = rows[0]["id"]
 
+        flash("Logged in")
         # Redirect user to home page
         return redirect("/")
 
@@ -131,6 +162,7 @@ def logout():
     # Forget any user_id
     session.clear()
 
+    flash("Logged out")
     # Redirect user to login form
     return redirect("/")
 
@@ -176,6 +208,7 @@ def register():
                    hash=generate_password_hash(request.form.get("password")),
                    role=request.form.get("role"))
 
+        flash("Registered!")
         # Redirect user to home page
         return redirect("/")
 
