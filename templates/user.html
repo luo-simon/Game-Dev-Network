@@ -1,0 +1,61 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Profile: {{ username }}
+{% endblock %}
+
+{% block main %}
+
+    
+    <div class="container px-5">
+        <div class="row px-5 justify-content-center">
+            <div class="col-auto">
+                <img src="https://api.adorable.io/avatars/285/{{ email }}.png" class="icon">
+            </div>
+            <div class="col-auto px-5">
+                <h1 class="pt-4">{{ username }}'s profile</h1>
+                <h3><span class="badge badge-dark" style="margin: 0 auto">{{ role }}</span></h3>
+            </div>
+            <div class="col-auto">
+                <br>
+                <form action="/user/{{ username }}" method="post">
+                    <input type="hidden" name="id" value="{{ id }}">
+                    <button type="submit" class="btn btn-outline-info"><i class="fas fa-user-plus"></i></button>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <hr>
+
+    <p class="text-muted">Bio</p>
+    {% if not description %}
+        <p class="font-italic">Seems like {{ username }} hasn't set a bio yet :(</p>
+    {% else %}
+        <blockquote class="blockquote"><p>{{ description }}</p></blockquote>
+    {% endif %}
+    <br>
+
+    <p class="text-muted">{{ username }}'s recent posts</p>
+
+    {% for post in posts %}
+        <div class="card bg-dark text-light my-2">
+        <a href="#">
+            <div class="card-body">
+            <div class="class-title">
+                <h5>{{ post["title"] }}</h5>  
+                <span class="badge float-r bg-1">Looking for: {{ post["role"] }}</span>
+            </div>
+            <p class="card-text">{{ post["text"] }}</p>
+            <footer class="blockquote-footer">{{ post["username"]}} at <cite>{{ post["timestamp"] }}</cite></footer>
+            </div>
+        </a>
+        </div>
+    {% endfor %}
+
+    {% if not posts %}
+        <p class="font-italic">{{ username }} hasn't created any posts yet!</p>
+    {% endif %}
+
+
+{% endblock %}

@@ -61,10 +61,41 @@ def profile():
         return redirect("/")
 
 
+@app.route("/user/<username>", methods=["GET", "POST"])
+@login_required
+def user(username):
+
+    if request.method == "GET":
+        user = db.execute("SELECT id, email, role, description from users WHERE username=:username",
+                        username=username)[0]
+
+        posts = db.execute("SELECT title, role, text, timestamp FROM posts WHERE user_id=:id LIMIT 5",
+                        id=user["id"])
+
+        id = user["id"]
+        email = user["email"]
+        role = user["role"]
+        description = user["description"]
+
+        return render_template("user.html", email=email, username=username, role=role, description=description, posts=posts, id=id)
+
+    else:
+        id = request.form.get("id")
+
+        db.execute("INSERT INTO contacts (user_id, contact_id) VALUES (:user_id, :contact_id)",
+                   user_id=session["user_id"], contact_id=id)
+
+        flash("User added")
+        return redirect("/contacts")
+
+
 @app.route("/contacts")
 @login_required
 def contacts():
-    return apology("Oops! This function has not yet been implemented...", 403)
+    contacts = db.execute("SELECT username, role, email FROM users WHERE id IN (SELECT contact_id FROM contacts WHERE user_id=:user_id)",
+                          user_id=session["user_id"])
+
+    return render_template("contacts.html", contacts=contacts)
 
 
 @app.route("/add_post", methods=["GET", "POST"])

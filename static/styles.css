@@ -137,11 +137,6 @@ label
     text-align: left;
 }
 
-.badge
-{
-    background-color: #3a4750;
-}
-
 .float-r
 {
     float: right;
@@ -155,4 +150,11 @@ label
 .fill
 {
     width: 100% !important;
+}
+
+.icon
+{
+    border-radius: 50%;
+    height: 100px;
+    width: 100px;
 }

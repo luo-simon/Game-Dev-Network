@@ -14,11 +14,11 @@
   
   {% for post in posts %}
     <div class="card bg-dark text-light my-2">
-      <a href="#">
+      <a href="/user/{{ post['username'] }}">
         <div class="card-body">
           <div class="class-title">
             <h5>{{ post["title"] }}</h5>  
-            <span class="badge float-r">Looking for: {{ post["role"] }}</span>
+            <span class="badge float-r bg-1">Looking for: {{ post["role"] }}</span>
           </div>
           <p class="card-text">{{ post["text"] }}</p>
           <footer class="blockquote-footer">{{ post["username"]}} at <cite>{{ post["timestamp"] }}</cite></footer>
