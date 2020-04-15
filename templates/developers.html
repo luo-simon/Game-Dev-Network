@@ -5,25 +5,28 @@
 {% endblock %}
 
 {% block main %}
-    <table class="table table-striped table-hover">
-      <thead class="bg-0">
+
+  <h2 class="text-left py-2">All users</h2>
+
+  <table class="table table-striped table-hover">
+    <thead class="bg-0">
+      <tr>
+        <th scope="col">Username</th>
+        <th scope="col">Role</th>
+        <th scope="col">Email</th>
+      </tr>
+    </thead>
+    <tbody>
+
+      {% for user in users %}
+        
         <tr>
-          <th scope="col">Username</th>
-          <th scope="col">Role</th>
-          <th scope="col">Email</th>
+          <td><a href='/user/{{ user["username"] }}'>{{ user["username"] }}</a></td>
+          <td>{{ user["role"] }}</td>
+          <td>{{ user["email"] }}</td>
         </tr>
-      </thead>
-      <tbody>
+      {% endfor %}
 
-        {% for user in users %}
-          
-          <tr>
-            <td><a href='/user/{{ user["username"] }}'>{{ user["username"] }}</a></td>
-            <td>{{ user["role"] }}</td>
-            <td>{{ user["email"] }}</td>
-          </tr>
-        {% endfor %}
-
-      </tbody>
-    </table>
+    </tbody>
+  </table>
 {% endblock %}
